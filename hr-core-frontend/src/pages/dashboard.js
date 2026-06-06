@@ -1,29 +1,18 @@
 /* =============================================================
    dashboard.js — Página de Dashboard (KPIs y resumen)
+   Sprint 2: conectado a estadísticas reales del backend
    ============================================================= */
 
 const DashboardPage = (() => {
 
-    /** Datos de ejemplo para cuando el backend no esté listo */
-    const MOCK_STATS = {
-        totalEmpleados:     148,
-        empleadosActivos:   142,
-        vacacionesPendientes: 7,
-        marcacionesHoy:     136,
-        beneficiosActivos:  5,
-    };
-
-    function render(container) {
+    async function render(container) {
         container.innerHTML = '';
 
-        // Layout principal
         const layout = document.createElement('div');
         layout.className = 'app-layout';
 
-        // Sidebar
         Sidebar.render(layout);
 
-        // Contenido principal
         const main = document.createElement('main');
         main.className = 'main-content';
 
@@ -45,140 +34,133 @@ const DashboardPage = (() => {
                 </div>
             </div>
 
-            <!-- KPI Cards -->
+            <!-- KPI Cards (se llenarán cuando la API responda) -->
             <div class="grid-stats animate-fade-in" id="stats-grid">
-                ${_buildStatCards(MOCK_STATS)}
+                <div class="stat-card"><div class="loading-overlay"><div class="spinner"></div></div></div>
+                <div class="stat-card"><div class="loading-overlay"><div class="spinner"></div></div></div>
+                <div class="stat-card"><div class="loading-overlay"><div class="spinner"></div></div></div>
+                <div class="stat-card"><div class="loading-overlay"><div class="spinner"></div></div></div>
             </div>
 
-            <!-- Segunda fila -->
-            <div class="grid-2" style="margin-top:var(--space-4);">
-
-                <!-- Actividad reciente -->
-                <div class="card animate-slide-up">
-                    <div class="card__header">
-                        <div>
-                            <div class="card__title">Actividad Reciente</div>
-                            <div class="card__subtitle">Últimas acciones en el sistema</div>
-                        </div>
+            <!-- Segunda fila: empleados recientes -->
+            <div class="card animate-slide-up">
+                <div class="card__header">
+                    <div>
+                        <div class="card__title">Empleados Registrados</div>
+                        <div class="card__subtitle">Últimos empleados en el sistema</div>
                     </div>
-                    <div id="recent-activity">
-                        ${_buildActivityList()}
-                    </div>
+                    <button class="btn btn--primary btn--sm" onclick="Router.navigate('/employees')">
+                        Ver todos →
+                    </button>
                 </div>
-
-                <!-- Solicitudes pendientes -->
-                <div class="card animate-slide-up">
-                    <div class="card__header">
-                        <div>
-                            <div class="card__title">Solicitudes Pendientes</div>
-                            <div class="card__subtitle">Requieren tu atención</div>
-                        </div>
-                        <button class="btn btn--ghost btn--sm" onclick="Router.navigate('/absences')">
-                            Ver todas
-                        </button>
-                    </div>
-                    <div id="pending-requests">
-                        ${_buildPendingRequests()}
-                    </div>
+                <div id="recent-employees">
+                    <div class="loading-overlay"><div class="spinner"></div><span>Cargando...</span></div>
                 </div>
-
             </div>
         `;
 
         main.appendChild(content);
         layout.appendChild(main);
         container.appendChild(layout);
+
+        // Cargar datos reales del backend
+        await _loadDashboardData();
     }
 
-    function _buildStatCards(stats) {
+    async function _loadDashboardData() {
+        try {
+            // Cargar estadísticas y empleados en paralelo
+            const [stats, employees] = await Promise.all([
+                Api.get('/v1/employees/stats').catch(() => null),
+                Api.get('/v1/employees').catch(() => []),
+            ]);
+
+            // Llenar las stat cards
+            const statsData = stats || { totalEmpleados: 0, empleadosActivos: 0, empleadosInactivos: 0 };
+            _renderStatCards(statsData, employees.length);
+
+            // Llenar los últimos 5 empleados
+            _renderRecentEmployees(employees.slice(0, 5));
+
+        } catch (err) {
+            Toast.error('Error de conexión', 'No se pudo conectar al servidor. ¿Está corriendo el backend?');
+            _renderStatCards({ totalEmpleados: 0, empleadosActivos: 0, empleadosInactivos: 0 }, 0);
+            _renderRecentEmployees([]);
+        }
+    }
+
+    function _renderStatCards(stats, totalRegistered) {
+        const grid = document.getElementById('stats-grid');
+        if (!grid) return;
+
         const cards = [
             {
                 value: stats.totalEmpleados,
                 label: 'Total Empleados',
                 icon: 'users',
                 color: 'indigo',
-                trend: '+3',
-                trendDir: 'up',
             },
             {
-                value: stats.vacacionesPendientes,
+                value: stats.empleadosActivos,
+                label: 'Empleados Activos',
+                icon: 'check',
+                color: 'success',
+            },
+            {
+                value: stats.empleadosInactivos,
+                label: 'Inactivos / Cesados',
+                icon: 'clock',
+                color: 'warning',
+            },
+            {
+                value: '—',
                 label: 'Vacaciones Pendientes',
                 icon: 'calendar',
-                color: 'warning',
-                trend: '+2',
-                trendDir: 'up',
-            },
-            {
-                value: stats.marcacionesHoy,
-                label: 'Marcaciones Hoy',
-                icon: 'clock',
                 color: 'cyan',
-                trend: '91%',
-                trendDir: 'up',
-            },
-            {
-                value: stats.beneficiosActivos,
-                label: 'Beneficios Activos',
-                icon: 'gift',
-                color: 'success',
-                trend: 'Estable',
-                trendDir: 'up',
             },
         ];
 
-        return cards.map(c => `
+        grid.innerHTML = cards.map(c => `
             <div class="stat-card stat-card--${c.color}">
                 <div class="stat-card__icon stat-card__icon--${c.color}">
                     ${Utils.iconSVG(c.icon)}
                 </div>
                 <div class="stat-card__value">${c.value}</div>
                 <div class="stat-card__label">${c.label}</div>
-                <span class="stat-card__trend stat-card__trend--${c.trendDir}">
-                    ${c.trendDir === 'up' ? '↑' : '↓'} ${c.trend}
-                </span>
             </div>
         `).join('');
     }
 
-    function _buildActivityList() {
-        const items = [
-            { icon: '👤', text: 'María López fue dada de alta',         time: 'Hace 15 min' },
-            { icon: '✅', text: 'Vacación de Carlos Ruiz aprobada',      time: 'Hace 1 hora' },
-            { icon: '🕐', text: '142 marcaciones registradas esta mañana', time: 'Hace 2 horas' },
-            { icon: '🎁', text: 'Pedro García se enroló en EPS Salud',   time: 'Ayer' },
-        ];
+    function _renderRecentEmployees(employees) {
+        const container = document.getElementById('recent-employees');
+        if (!container) return;
 
-        return items.map(item => `
-            <div style="display:flex;align-items:center;gap:var(--space-3);
-                        padding:var(--space-3) 0;border-bottom:1px solid var(--border-color);">
-                <span style="font-size:1.25rem;">${item.icon}</span>
-                <div style="flex:1;">
-                    <p style="font-size:var(--font-size-sm);">${item.text}</p>
-                    <p style="font-size:var(--font-size-xs);color:var(--clr-text-500);">${item.time}</p>
+        if (employees.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding:var(--space-8);">
+                    <div class="empty-state__icon">👥</div>
+                    <p class="empty-state__title">Sin empleados aún</p>
+                    <p class="empty-state__text">Crea tu primer empleado para ver datos aquí.</p>
+                    <button class="btn btn--primary mt-4" onclick="Router.navigate('/employees')">
+                        ➕ Crear Empleado
+                    </button>
                 </div>
-            </div>
-        `).join('');
-    }
+            `;
+            return;
+        }
 
-    function _buildPendingRequests() {
-        const requests = [
-            { name: 'Ana Torres',     type: 'Vacaciones', days: 5,  status: 'PENDIENTE_JEFE' },
-            { name: 'Juan Pérez',     type: 'Vacaciones', days: 3,  status: 'PENDIENTE_RRHH' },
-            { name: 'Sofia Mendez',   type: 'Vacaciones', days: 10, status: 'PENDIENTE_JEFE' },
-        ];
-
-        return requests.map(r => `
+        container.innerHTML = employees.map(emp => `
             <div style="display:flex;align-items:center;gap:var(--space-3);
                         padding:var(--space-3) 0;border-bottom:1px solid var(--border-color);">
-                <div class="avatar">${Utils.getInitials(r.name.split(' ')[0], r.name.split(' ')[1])}</div>
+                <div class="avatar">${Utils.getInitials(emp.nombre, emp.apellido)}</div>
                 <div style="flex:1;">
-                    <p style="font-size:var(--font-size-sm);font-weight:500;">${r.name}</p>
+                    <p style="font-size:var(--font-size-sm);font-weight:500;">${emp.nombre} ${emp.apellido}</p>
                     <p style="font-size:var(--font-size-xs);color:var(--clr-text-500);">
-                        ${r.type} · ${r.days} días
+                        ${emp.cargo} · ${emp.departamento}
                     </p>
                 </div>
-                <span class="badge ${Utils.statusToBadge(r.status)}">
-                    ${Utils.statusToLabel(r.status)}
+                <span class="badge ${Utils.statusToBadge(emp.status)}">
+                    ${Utils.statusToLabel(emp.status)}
                 </span>
             </div>
         `).join('');

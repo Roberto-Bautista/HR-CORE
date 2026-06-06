@@ -1,0 +1,10 @@
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\architecture\ArchitectureTest.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\integration\AbsenceWorkflowIT.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\integration\AttendanceWorkflowIT.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\integration\EmployeeControllerIT.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\integration\KafkaIntegrationIT.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\unit\AbsenceServiceTest.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\unit\AttendanceServiceTest.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\unit\BenefitsServiceTest.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\unit\EmployeeServiceTest.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\test\java\com\empresa\hrcore\unit\NominaAdapterTest.java

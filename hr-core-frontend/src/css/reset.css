@@ -1,0 +1,119 @@
+/* =============================================================
+   reset.css — Normalización y estilos base
+   ============================================================= */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--clr-text-100);
+    background-color: var(--clr-bg-900);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Elementos de lista sin estilo por defecto */
+ul, ol { list-style: none; }
+
+/* Imágenes responsivas */
+img, svg, video {
+    display: block;
+    max-width: 100%;
+}
+
+/* Inputs y botones heredan la fuente */
+input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+}
+
+/* Botones sin estilo nativo */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Links sin subrayado por defecto */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Tablas: bordes colapsados */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* Scrollbar personalizada (webkit) */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--clr-bg-800);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--clr-bg-500);
+    border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--clr-accent-700);
+}
+
+/* Selección de texto */
+::selection {
+    background-color: var(--clr-accent-500);
+    color: #fff;
+}
+
+/* Focus visible accesible */
+:focus-visible {
+    outline: 2px solid var(--clr-accent-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* Animación de entrada global para vistas */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-fade-in    { animation: fadeIn 0.3s var(--transition-normal) both; }
+.animate-slide-up   { animation: slideInUp 0.3s var(--transition-normal) both; }
+.animate-slide-left { animation: slideInLeft 0.3s var(--transition-normal) both; }

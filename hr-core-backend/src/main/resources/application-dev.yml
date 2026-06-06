@@ -1,0 +1,57 @@
+# ============================================================
+# application-dev.yml - Perfil de DESARROLLO LOCAL
+#
+# Se activa con: spring.profiles.active=dev
+# O con la variable de entorno: SPRING_PROFILES_ACTIVE=dev
+#
+# Usa la instancia de PostgreSQL levantada con docker-compose.yml
+# ============================================================
+
+spring:
+
+  # --- Base de Datos PostgreSQL (Docker local) ---
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hrcore_dev
+    username: hrcore_user
+    password: hrcore_pass
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: HRCore-Dev-Pool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  # --- JPA: mostrar SQL en consola durante desarrollo ---
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # --- Kafka local (Docker) ---
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  # --- Redis local (Docker) ---
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# --- Logging más detallado en desarrollo ---
+logging:
+  level:
+    com.empresa.hrcore: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+# --- Actuator: exponer todo en dev ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,129 @@
+/* =============================================================
+   variables.css — Design Tokens del sistema HR-Core
+   
+   Toda la paleta de colores, tipografía, espaciado y efectos
+   viven aquí como variables CSS. Si necesitas cambiar el color
+   de acento de toda la app, solo cambia --clr-accent-500.
+   ============================================================= */
+
+:root {
+
+    /* -----------------------------------------------------------
+       COLORES — Paleta oscura (dark mode por defecto)
+       ----------------------------------------------------------- */
+
+    /* Fondos */
+    --clr-bg-900: #0d0f17;       /* Fondo más oscuro (body) */
+    --clr-bg-800: #13161f;       /* Fondo de sidebar */
+    --clr-bg-700: #1a1e2e;       /* Fondo de cards / paneles */
+    --clr-bg-600: #212538;       /* Fondo de inputs, filas alternas */
+    --clr-bg-500: #2a2f47;       /* Bordes, separadores */
+
+    /* Acento principal: Indigo/Violeta */
+    --clr-accent-900: #1e1b4b;   /* Hover oscuro */
+    --clr-accent-700: #3730a3;   /* Acento oscuro */
+    --clr-accent-500: #6366f1;   /* Acento principal ← Cambia este para re-tematizar */
+    --clr-accent-400: #818cf8;   /* Acento claro */
+    --clr-accent-100: #e0e7ff;   /* Acento muy claro (texto sobre oscuro) */
+
+    /* Acento secundario: Cyan/Teal (para gráficas, badges) */
+    --clr-cyan-500:  #06b6d4;
+    --clr-cyan-400:  #22d3ee;
+
+    /* Semánticos */
+    --clr-success-500: #22c55e;
+    --clr-success-100: #dcfce7;
+    --clr-warning-500: #f59e0b;
+    --clr-warning-100: #fef3c7;
+    --clr-danger-500:  #ef4444;
+    --clr-danger-100:  #fee2e2;
+    --clr-info-500:    #3b82f6;
+    --clr-info-100:    #dbeafe;
+
+    /* Texto */
+    --clr-text-100: #f1f5f9;     /* Texto primario */
+    --clr-text-300: #94a3b8;     /* Texto secundario / subtítulos */
+    --clr-text-500: #64748b;     /* Texto deshabilitado / placeholder */
+
+    /* -----------------------------------------------------------
+       TIPOGRAFÍA
+       ----------------------------------------------------------- */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --font-size-xs:   0.75rem;   /*  12px */
+    --font-size-sm:   0.875rem;  /*  14px */
+    --font-size-md:   1rem;      /*  16px — base */
+    --font-size-lg:   1.125rem;  /*  18px */
+    --font-size-xl:   1.25rem;   /*  20px */
+    --font-size-2xl:  1.5rem;    /*  24px */
+    --font-size-3xl:  1.875rem;  /*  30px */
+    --font-size-4xl:  2.25rem;   /*  36px */
+
+    --font-weight-light:   300;
+    --font-weight-regular: 400;
+    --font-weight-medium:  500;
+    --font-weight-semibold: 600;
+    --font-weight-bold:    700;
+    --font-weight-extrabold: 800;
+
+    --line-height-tight:  1.25;
+    --line-height-normal: 1.5;
+    --line-height-loose:  1.75;
+
+    /* -----------------------------------------------------------
+       ESPACIADO — Escala consistente de 4px
+       ----------------------------------------------------------- */
+    --space-1:  0.25rem;   /*  4px */
+    --space-2:  0.5rem;    /*  8px */
+    --space-3:  0.75rem;   /* 12px */
+    --space-4:  1rem;      /* 16px */
+    --space-5:  1.25rem;   /* 20px */
+    --space-6:  1.5rem;    /* 24px */
+    --space-8:  2rem;      /* 32px */
+    --space-10: 2.5rem;    /* 40px */
+    --space-12: 3rem;      /* 48px */
+    --space-16: 4rem;      /* 64px */
+
+    /* -----------------------------------------------------------
+       BORDES Y RADIOS
+       ----------------------------------------------------------- */
+    --radius-sm:  0.375rem;   /*  6px */
+    --radius-md:  0.5rem;     /*  8px */
+    --radius-lg:  0.75rem;    /* 12px */
+    --radius-xl:  1rem;       /* 16px */
+    --radius-2xl: 1.5rem;     /* 24px */
+    --radius-full: 9999px;    /* pill / círculos */
+
+    --border-color: var(--clr-bg-500);
+    --border-width: 1px;
+
+    /* -----------------------------------------------------------
+       SOMBRAS (con tinte del color de acento)
+       ----------------------------------------------------------- */
+    --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);   /* glow del acento */
+
+    /* -----------------------------------------------------------
+       TRANSICIONES
+       ----------------------------------------------------------- */
+    --transition-fast:   150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow:   400ms ease;
+
+    /* -----------------------------------------------------------
+       LAYOUT — Dimensiones del shell
+       ----------------------------------------------------------- */
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 72px;
+    --header-height: 64px;
+    --content-max-width: 1280px;
+
+    /* -----------------------------------------------------------
+       GLASSMORPHISM — Efecto vidrio en cards
+       ----------------------------------------------------------- */
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: blur(12px);
+}

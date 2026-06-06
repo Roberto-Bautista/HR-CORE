@@ -1,0 +1,100 @@
+# ============================================================
+# application.yml - Configuración BASE (compartida por todos los perfiles)
+# Los valores con ${VAR:default} leen variables de entorno primero,
+# y si no existen usan el valor por defecto.
+# ============================================================
+
+spring:
+  application:
+    name: hr-core-backend
+
+  # --- JPA / Hibernate ---
+  jpa:
+    hibernate:
+      ddl-auto: validate        # Flyway maneja el esquema; Hibernate solo valida
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+
+  # --- Flyway: migraciones automáticas de BD ---
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # --- Kafka ---
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all                  # Confirmar escritura en todos los brokers
+      retries: 3
+    consumer:
+      group-id: hr-core-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+  # --- Redis ---
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000ms
+
+  # --- Email (SMTP) ---
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USER:noreply@empresa.com}
+    password: ${SMTP_PASS:changeme}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+# --- Actuator: endpoints de salud y métricas ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# --- Documentación OpenAPI / Swagger ---
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+
+# --- Resilience4j: Circuit Breaker para Nómina Legacy ---
+resilience4j:
+  circuitbreaker:
+    instances:
+      nomina-service:
+        register-health-indicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50          # Abre si >50% de llamadas fallan
+        wait-duration-in-open-state: 60s    # Tiempo en estado ABIERTO
+        permitted-calls-in-half-open-state: 3
+  retry:
+    instances:
+      email-service:
+        max-attempts: 3
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+
+# --- Logging base ---
+logging:
+  level:
+    root: INFO
+    com.empresa.hrcore: INFO

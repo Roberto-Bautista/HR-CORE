@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="HR-Core – Plataforma centralizada de Gestión de Talento Humano" />
+    <title>HR-Core | Gestión de Talento Humano</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Design System CSS (orden importante) -->
+    <link rel="stylesheet" href="src/css/variables.css" />
+    <link rel="stylesheet" href="src/css/reset.css" />
+    <link rel="stylesheet" href="src/css/components.css" />
+    <link rel="stylesheet" href="src/css/layout.css" />
+</head>
+<body>
+
+    <!-- =====================================================
+         APP SHELL — El JS inyecta contenido aquí según la ruta
+         ===================================================== -->
+    <div id="app">
+
+        <!-- Toast container (notificaciones) -->
+        <div id="toast-container" aria-live="polite"></div>
+
+        <!-- El router renderiza aquí: login o layout principal -->
+        <div id="view-root"></div>
+
+    </div>
+
+    <!-- =====================================================
+         SCRIPTS — Módulos vanilla JS (orden importa)
+         ===================================================== -->
+    <script src="src/js/utils.js"></script>
+    <script src="src/js/state.js"></script>
+    <script src="src/js/api.js"></script>
+    <script src="src/js/auth.js"></script>
+
+    <!-- Componentes reutilizables -->
+    <script src="src/components/toast.js"></script>
+    <script src="src/components/modal.js"></script>
+    <script src="src/components/table.js"></script>
+    <script src="src/components/sidebar.js"></script>
+    <script src="src/components/header.js"></script>
+
+    <!-- Páginas -->
+    <script src="src/pages/login.js"></script>
+    <script src="src/pages/dashboard.js"></script>
+    <script src="src/pages/employees.js"></script>
+    <script src="src/pages/absences.js"></script>
+    <script src="src/pages/attendance.js"></script>
+    <script src="src/pages/benefits.js"></script>
+
+    <!-- Router — arranca la app (debe ser el último) -->
+    <script src="src/js/router.js"></script>
+</body>
+</html>

@@ -1,52 +1,49 @@
-package com.empresa.hrcore.domain.entities;
+package com.empresa.hrcore.infrastructure.persistence.jpa;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-/**
- * ENTIDAD DE DOMINIO - RegistroTiempo
- *
- * Representa el resumen diario de asistencia de un empleado.
- *
- * Reglas de negocio:
- *  - Horario oficial: 08:00 – 13:00 (5 horas = 300 min)
- *  - Tolerancia de ingreso: hasta 08:05 sin tardanza
- *  - Ingreso antes de 08:00 → se reconoce como 08:00
- *  - tiempoFueraDeHorarioMin: solo informativo, NO suma a horasEfectivas
- *
- * Fórmula: horasEfectivasMin = 300 - tardanzaMin - salidaAnticipadaMin
- */
-public class RegistroTiempo {
+@Entity
+@Table(name = "time_records")
+public class RegistroTiempoJpaEntity {
 
-    private UUID     id;
-    private UUID     empleadoId;
+    @Id
+    private UUID id;
+
+    @Column(name = "employee_id", nullable = false)
+    private UUID empleadoId;
+
+    @Column(name = "record_date", nullable = false)
     private LocalDate fecha;
 
-    // Horas reales marcadas (para auditoría)
+    @Column(name = "hora_ingreso_real")
     private LocalTime horaIngresoReal;
-    private LocalTime horaIngresoReconocida; // Si ingresó antes de 08:00 → se ajusta a 08:00
+
+    @Column(name = "hora_ingreso_reconocida")
+    private LocalTime horaIngresoReconocida;
+
+    @Column(name = "hora_salida_real")
     private LocalTime horaSalidaReal;
 
-    // Minutos calculados
-    private int tardanzaMin;            // minutos después de 08:05
-    private int salidaAnticipadaMin;    // minutos antes de 13:00
-    private int tiempoFueraDeHorarioMin;// minutos después de 13:00 (SOLO informativo)
-    private int horasEfectivasMin;      // 300 - tardanza - salida_anticipada
+    @Column(name = "tardanza_min", nullable = false)
+    private int tardanzaMin;
 
-    public RegistroTiempo() {}
+    @Column(name = "salida_anticipada_min", nullable = false)
+    private int salidaAnticipadaMin;
 
-    public RegistroTiempo(UUID empleadoId, LocalDate fecha) {
-        this.id                     = UUID.randomUUID();
-        this.empleadoId             = empleadoId;
-        this.fecha                  = fecha;
-        this.tardanzaMin            = 0;
-        this.salidaAnticipadaMin    = 0;
-        this.tiempoFueraDeHorarioMin = 0;
-        this.horasEfectivasMin      = 0;
-    }
+    @Column(name = "tiempo_fuera_horario_min", nullable = false)
+    private int tiempoFueraDeHorarioMin;
 
-    // ─── Getters / Setters ───────────────────────────────────
+    @Column(name = "horas_efectivas_min", nullable = false)
+    private int horasEfectivasMin;
+
+    public RegistroTiempoJpaEntity() {}
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }

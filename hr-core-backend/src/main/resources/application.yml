@@ -26,15 +26,25 @@ spring:
     clean-on-validation-error: true
     clean-disabled: false
 
-  # --- Kafka (DESACTIVADO hasta Sprint 6) ---
+  # --- Kafka ---
   kafka:
     bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+    consumer:
+      group-id: hr-core-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+  # --- Redis ---
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 # --- Actuator: endpoints de salud y métricas ---
 management:
   endpoints:

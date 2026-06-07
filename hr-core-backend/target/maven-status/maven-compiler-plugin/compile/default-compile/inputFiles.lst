@@ -8,6 +8,7 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\mappers\BenefitsMapper.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\mappers\EmployeeMapper.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\AbsenceService.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\AttendanceService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\EmployeeService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\usecases\AbsenceUseCase.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\usecases\AttendanceUseCase.java
@@ -29,6 +30,7 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\entities\SaldoVacacion.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\entities\SolicitudVacacion.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\entities\UsuarioSistema.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\exceptions\AttendanceValidationException.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\exceptions\DomainException.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\exceptions\EmpleadoNoElegibleException.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\exceptions\EstadoTransicionInvalidaException.java
@@ -52,11 +54,16 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\attendance\CalculadoraHorasFactory.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\attendance\CalculadoraHorasNormales.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\attendance\CalculadoraPenalidades.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\attendance\HorasExtraStrategy.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\attendance\HorasNormalesStrategy.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\attendance\PenalidadesStrategy.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\benefits\ElegibilidadComposite.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\benefits\VerificadorElegibilidad.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\benefits\VerificadorPorAntiguedad.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\benefits\VerificadorPorCargo.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\patterns\strategy\benefits\VerificadorPorSalario.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\AttendanceEventPublisher.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\EmployeeCachePort.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\IAbsenceRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\IAttendanceRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\IAuditRepository.java
@@ -67,6 +74,8 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\IEventBusPort.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\INominaPort.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\IRBACRepository.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\MarcacionRepository.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\ports\RegistroTiempoRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\services\AbsenceService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\services\AttendanceService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\services\AuditService.java
@@ -75,8 +84,11 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\services\NotificationService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\domain\services\RBACService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\HrCoreApplication.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\AttendanceKafkaConsumer.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\AttendanceKafkaProducer.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\CacheAdapter.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\EmailAdapter.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\EmployeeCacheRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\KafkaAdapter.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\adapters\NominaAdapter.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\configuration\ActuatorConfig.java
@@ -98,7 +110,11 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\MarcacionJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\RolJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\SolicitudVacacionJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\MarcacionJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\MarcacionJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\PerfilProfesionalJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\RegistroTiempoJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\RegistroTiempoJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\repositories\AuditoriaJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\repositories\BeneficioJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\repositories\EmpleadoJpaRepository.java
@@ -113,7 +129,9 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\AuditRepositoryImpl.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\BenefitsRepositoryImpl.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\EmployeeRepositoryImpl.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\MarcacionRepositoryImpl.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\RBACRepositoryImpl.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\RegistroTiempoRepositoryImpl.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\security\JwtAuthenticationFilter.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\security\JwtTokenProvider.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\security\PasswordEncoderConfig.java

@@ -67,8 +67,8 @@ const Router = (() => {
         if (Auth.isAuthenticated()) {
             const isWorker = Auth.hasRole('WORKER');
             if (isWorker) {
-                // El trabajador solo puede ver Dashboard y Mis Vacaciones
-                if (path !== '/dashboard' && path !== '/my-absences') {
+                // El trabajador solo puede ver Dashboard, Mis Vacaciones y Asistencia
+                if (path !== '/dashboard' && path !== '/my-absences' && path !== '/attendance') {
                     navigate('/dashboard');
                     return;
                 }

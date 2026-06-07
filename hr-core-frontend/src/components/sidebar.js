@@ -14,7 +14,7 @@ const Sidebar = (() => {
         { group: 'Módulos HR', roles: ['ADMIN'] },
         { path: '/employees',  label: 'Empleados',    icon: 'users',    badge: null, roles: ['ADMIN'] },
         { path: '/absences',   label: 'Vacaciones',   icon: 'calendar', badge: null, roles: ['ADMIN'] },
-        { path: '/attendance', label: 'Asistencia',   icon: 'clock',    roles: ['ADMIN'] },
+        { path: '/attendance', label: 'Asistencia',   icon: 'clock',    roles: ['ADMIN', 'WORKER'] },
         { path: '/benefits',   label: 'Beneficios',   icon: 'gift',     roles: ['ADMIN'] },
 
         { group: 'Administración', roles: ['ADMIN'] },

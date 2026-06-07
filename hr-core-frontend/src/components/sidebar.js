@@ -8,15 +8,18 @@ const Sidebar = (() => {
         { group: 'Principal' },
         { path: '/dashboard',  label: 'Dashboard',    icon: 'home' },
 
-        { group: 'Módulos HR' },
-        { path: '/employees',  label: 'Empleados',    icon: 'users',    badge: null },
-        { path: '/absences',   label: 'Vacaciones',   icon: 'calendar', badge: '3' },
-        { path: '/attendance', label: 'Asistencia',   icon: 'clock' },
-        { path: '/benefits',   label: 'Beneficios',   icon: 'gift' },
+        { group: 'Mi Espacio', roles: ['WORKER'] },
+        { path: '/my-absences', label: 'Mis Vacaciones', icon: 'calendar', roles: ['WORKER'] },
 
-        { group: 'Administración' },
-        { path: '/rbac',       label: 'Roles',        icon: 'shield', roles: ['ADMIN'] },
-        { path: '/audit',      label: 'Auditoría',    icon: 'chart',  roles: ['ADMIN', 'RRHH'] },
+        { group: 'Módulos HR', roles: ['ADMIN'] },
+        { path: '/employees',  label: 'Empleados',    icon: 'users',    badge: null, roles: ['ADMIN'] },
+        { path: '/absences',   label: 'Vacaciones',   icon: 'calendar', badge: null, roles: ['ADMIN'] },
+        { path: '/attendance', label: 'Asistencia',   icon: 'clock',    roles: ['ADMIN'] },
+        { path: '/benefits',   label: 'Beneficios',   icon: 'gift',     roles: ['ADMIN'] },
+
+        { group: 'Administración', roles: ['ADMIN'] },
+        { path: '/rbac',       label: 'Roles',        icon: 'shield',   roles: ['ADMIN'] },
+        { path: '/audit',      label: 'Auditoría',    icon: 'chart',    roles: ['ADMIN', 'RRHH'] },
     ];
 
     function render(container) {
@@ -46,7 +49,9 @@ const Sidebar = (() => {
                         <div class="sidebar__user-name">
                             ${user ? `${user.nombre} ${user.apellido}` : 'Usuario'}
                         </div>
-                        <div class="sidebar__user-role">${user?.rol || 'Sin rol'}</div>
+                        <div class="sidebar__user-role">
+                            ${user?.rol === 'ADMIN' ? 'Administrador' : 'Colaborador'}
+                        </div>
                     </div>
                     <span style="color:var(--clr-text-500); font-size:0.9rem">🚪</span>
                 </div>
@@ -71,12 +76,40 @@ const Sidebar = (() => {
 
         // Marcar la ruta activa
         _updateActive(sidebar);
+
+        // Cargar badge de vacaciones pendientes si es admin
+        if (user && user.rol === 'ADMIN') {
+            _loadPendingVacationBadge(sidebar);
+        }
+    }
+
+    async function _loadPendingVacationBadge(sidebar) {
+        try {
+            const stats = await Api.get('/v1/absences/stats').catch(() => null);
+            if (stats && stats.pendientes > 0) {
+                const navItem = sidebar.querySelector('[data-route="/absences"]');
+                if (navItem) {
+                    let badge = navItem.querySelector('.nav-item__badge');
+                    if (!badge) {
+                        badge = document.createElement('span');
+                        badge.className = 'nav-item__badge';
+                        navItem.appendChild(badge);
+                    }
+                    badge.textContent = stats.pendientes;
+                }
+            }
+        } catch (err) {
+            console.error('Error loading pending vacation badge:', err);
+        }
     }
 
     function _buildNavItems(user) {
         return NAV_ITEMS.map(item => {
             // Separador de grupo
             if (item.group) {
+                if (item.roles && user && !item.roles.includes(user.rol)) {
+                    return '';
+                }
                 return `<div class="sidebar__section-label">${item.group}</div>`;
             }
 

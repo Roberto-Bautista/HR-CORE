@@ -40,6 +40,22 @@ const Auth = (() => {
         */
     }
 
+    /** Inicia sesión como trabajador (temporal para Fase 3) */
+    function loginAsWorker(employee) {
+        const mockUser = {
+            id: employee.id,
+            nombre: employee.nombre,
+            apellido: employee.apellido,
+            email: `${employee.nombre.toLowerCase()}@empresa.com`,
+            rol: 'WORKER',
+            codigo: employee.codigo
+        };
+        State.set('token', 'mock-jwt-token-worker-' + employee.id);
+        State.set('user', mockUser);
+        State.persist();
+        return mockUser;
+    }
+
     /** Cierra sesión: limpia estado y redirige al login */
     function logout() {
         State.clear();
@@ -62,7 +78,7 @@ const Auth = (() => {
         return user?.rol === role;
     }
 
-    return { login, logout, isAuthenticated, currentUser, hasRole };
+    return { login, loginAsWorker, logout, isAuthenticated, currentUser, hasRole };
 
 })();
 

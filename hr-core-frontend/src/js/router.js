@@ -63,6 +63,24 @@ const Router = (() => {
             return;
         }
 
+        // Control de acceso por rol (Trabajador vs Admin)
+        if (Auth.isAuthenticated()) {
+            const isWorker = Auth.hasRole('WORKER');
+            if (isWorker) {
+                // El trabajador solo puede ver Dashboard y Mis Vacaciones
+                if (path !== '/dashboard' && path !== '/my-absences') {
+                    navigate('/dashboard');
+                    return;
+                }
+            } else {
+                // El admin no debe ver la vista personal de Mis Vacaciones
+                if (path === '/my-absences') {
+                    navigate('/dashboard');
+                    return;
+                }
+            }
+        }
+
         const renderFn = _routes[path];
 
         if (renderFn) {
@@ -100,6 +118,7 @@ const Router = (() => {
         register('/absences',   AbsencesPage.render);
         register('/attendance', AttendancePage.render);
         register('/benefits',   BenefitsPage.render);
+        register('/my-absences', MyAbsencesPage.render);
 
         // Escuchar cambios de hash
         window.addEventListener('hashchange', _render);

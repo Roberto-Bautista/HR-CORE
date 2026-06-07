@@ -6,6 +6,12 @@
 const DashboardPage = (() => {
 
     async function render(container) {
+        const user = Auth.currentUser();
+        if (user && user.rol === 'WORKER') {
+            await WorkerDashboardPage.render(container);
+            return;
+        }
+
         container.innerHTML = '';
 
         const layout = document.createElement('div');
@@ -24,8 +30,6 @@ const DashboardPage = (() => {
         const content = document.createElement('div');
         content.className = 'page-content';
 
-        const user = Auth.currentUser();
-
         content.innerHTML = `
             <div class="page-header animate-fade-in">
                 <div class="page-header__left">
@@ -34,7 +38,7 @@ const DashboardPage = (() => {
                 </div>
             </div>
 
-            <!-- KPI Cards (se llenarán cuando la API responda) -->
+            <!-- KPI Cards -->
             <div class="grid-stats animate-fade-in" id="stats-grid">
                 <div class="stat-card"><div class="loading-overlay"><div class="spinner"></div></div></div>
                 <div class="stat-card"><div class="loading-overlay"><div class="spinner"></div></div></div>
@@ -63,33 +67,32 @@ const DashboardPage = (() => {
         layout.appendChild(main);
         container.appendChild(layout);
 
-        // Cargar datos reales del backend
         await _loadDashboardData();
     }
 
     async function _loadDashboardData() {
         try {
-            // Cargar estadísticas y empleados en paralelo
-            const [stats, employees] = await Promise.all([
+            // Cargar estadísticas, empleados y stats de vacaciones en paralelo
+            const [stats, employees, vacationStats] = await Promise.all([
                 Api.get('/v1/employees/stats').catch(() => null),
                 Api.get('/v1/employees').catch(() => []),
+                Api.get('/v1/absences/stats').catch(() => null),
             ]);
 
-            // Llenar las stat cards
             const statsData = stats || { totalEmpleados: 0, empleadosActivos: 0, empleadosInactivos: 0 };
-            _renderStatCards(statsData, employees.length);
+            const pendingVacations = vacationStats ? vacationStats.pendientes : 0;
+            _renderStatCards(statsData, employees.length, pendingVacations);
 
-            // Llenar los últimos 5 empleados
             _renderRecentEmployees(employees.slice(0, 5));
 
         } catch (err) {
             Toast.error('Error de conexión', 'No se pudo conectar al servidor. ¿Está corriendo el backend?');
-            _renderStatCards({ totalEmpleados: 0, empleadosActivos: 0, empleadosInactivos: 0 }, 0);
+            _renderStatCards({ totalEmpleados: 0, empleadosActivos: 0, empleadosInactivos: 0 }, 0, 0);
             _renderRecentEmployees([]);
         }
     }
 
-    function _renderStatCards(stats, totalRegistered) {
+    function _renderStatCards(stats, totalRegistered, pendingVacations) {
         const grid = document.getElementById('stats-grid');
         if (!grid) return;
 
@@ -113,7 +116,7 @@ const DashboardPage = (() => {
                 color: 'warning',
             },
             {
-                value: '—',
+                value: pendingVacations,
                 label: 'Vacaciones Pendientes',
                 icon: 'calendar',
                 color: 'cyan',

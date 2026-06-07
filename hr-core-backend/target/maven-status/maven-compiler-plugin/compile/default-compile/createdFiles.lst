@@ -6,6 +6,7 @@ com\empresa\hrcore\infrastructure\configuration\SecurityConfig.class
 com\empresa\hrcore\infrastructure\persistence\jpa\PerfilProfesionalJpaEntity.class
 com\empresa\hrcore\domain\exceptions\DomainException.class
 com\empresa\hrcore\infrastructure\persistence\jpa\EmpleadoJpaRepository.class
+com\empresa\hrcore\infrastructure\persistence\jpa\EmployeeHistoryJpaRepository.class
 com\empresa\hrcore\presentation\exceptions\ErrorCode.class
 com\empresa\hrcore\application\services\EmployeeService.class
 com\empresa\hrcore\domain\exceptions\SaldoInsuficienteException.class
@@ -16,10 +17,12 @@ com\empresa\hrcore\presentation\exceptions\ErrorResponse.class
 com\empresa\hrcore\domain\ports\IEmployeeRepository.class
 com\empresa\hrcore\infrastructure\persistence\jpa\EmpleadoJpaEntity$Status.class
 com\empresa\hrcore\domain\exceptions\EmpleadoNoElegibleException.class
+com\empresa\hrcore\infrastructure\persistence\jpa\EmployeeHistoryJpaEntity.class
 com\empresa\hrcore\presentation\dtos\EmployeeResponse$PerfilResponse.class
 com\empresa\hrcore\presentation\exceptions\ResourceNotFoundException.class
 com\empresa\hrcore\infrastructure\persistence\repositories\EmployeeRepositoryImpl.class
 com\empresa\hrcore\domain\entities\PerfilProfesional.class
+com\empresa\hrcore\presentation\controllers\EmployeeController$HistoryResponse.class
 com\empresa\hrcore\presentation\dtos\EmployeeResponse.class
 com\empresa\hrcore\presentation\controllers\EmployeeController.class
 com\empresa\hrcore\presentation\dtos\CreateEmployeeRequest.class

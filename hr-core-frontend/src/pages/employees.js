@@ -41,13 +41,20 @@ const EmployeesPage = (() => {
         {
             key: '_actions',
             label: 'Acciones',
-            render: (_, row) => `
+            render: (_, row) => {
+                const isCesado = row.status === 'CESADO' || row.status === 'INACTIVO';
+                return `
                 <div style="display:flex;gap:var(--space-2);">
                     <button class="btn btn--ghost btn--sm btn--icon" title="Ver detalle"
                             onclick="EmployeesPage.viewEmployee('${row.id}')">👁️</button>
                     <button class="btn btn--ghost btn--sm btn--icon" title="Editar"
                             onclick="EmployeesPage.editEmployee('${row.id}')">✏️</button>
-                </div>`,
+                    ${!isCesado ? `
+                    <button class="btn btn--ghost btn--sm btn--icon" title="Dar de baja (Cesar)"
+                            onclick="EmployeesPage.terminateEmployee('${row.id}')" style="color: var(--clr-danger-500);">🛑</button>
+                    ` : ''}
+                </div>`;
+            }
         },
     ];
 
@@ -181,27 +188,40 @@ const EmployeesPage = (() => {
     function _openFormModal(employee) {
         const isEdit = !!employee;
 
-        // Generar código automático para nuevos empleados
-        const nextCode = isEdit ? employee.codigo : `EMP-${String(_employees.length + 1).padStart(3, '0')}`;
-
         Modal.open({
             title: isEdit ? `Editar: ${employee.nombre} ${employee.apellido}` : 'Nuevo Empleado',
             size: 'lg',
             body: `
                 <form id="employee-form" novalidate>
+                    ${isEdit ? `
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label form-label--required" for="emp-codigo">Código</label>
+                            <label class="form-label" for="emp-codigo">Código (autogenerado)</label>
                             <input class="form-input" id="emp-codigo" type="text"
-                                   placeholder="EMP-001" value="${nextCode}"
-                                   ${isEdit ? 'readonly style="opacity:0.6;cursor:not-allowed;"' : ''} required />
+                                   value="${employee.codigo}"
+                                   readonly style="opacity:0.6;cursor:not-allowed;" />
                         </div>
                         <div class="form-group">
                             <label class="form-label form-label--required" for="emp-fecha-alta">Fecha de Ingreso</label>
                             <input class="form-input" id="emp-fecha-alta" type="date"
-                                   value="${employee?.fechaAlta || new Date().toISOString().slice(0,10)}" required />
+                                   value="${employee.fechaAlta}" required />
                         </div>
                     </div>
+                    ` : `
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="emp-codigo">Código</label>
+                            <input class="form-input" id="emp-codigo" type="text"
+                                   value="EMP-${String(_employees.length + 1).padStart(3, '0')}"
+                                   readonly style="opacity:0.6;cursor:not-allowed;" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label--required" for="emp-fecha-alta">Fecha de Ingreso</label>
+                            <input class="form-input" id="emp-fecha-alta" type="date"
+                                   value="${new Date().toISOString().slice(0,10)}" required />
+                        </div>
+                    </div>
+                    `}
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label form-label--required" for="emp-nombre">Nombre</label>
@@ -265,7 +285,6 @@ const EmployeesPage = (() => {
     }
 
     async function _handleSave(id) {
-        const codigo       = document.getElementById('emp-codigo')?.value.trim();
         const nombre       = document.getElementById('emp-nombre')?.value.trim();
         const apellido     = document.getElementById('emp-apellido')?.value.trim();
         const email        = document.getElementById('emp-email')?.value.trim();
@@ -291,9 +310,9 @@ const EmployeesPage = (() => {
                 });
                 Toast.success('Empleado actualizado', `${nombre} ${apellido} fue actualizado correctamente.`);
             } else {
-                // Crear empleado nuevo (POST)
+                // Crear empleado nuevo (POST) — sin código, se autogenera
                 await Api.post('/v1/employees', {
-                    codigo, nombre, apellido, email, telefono, cargo,
+                    nombre, apellido, email, telefono, cargo,
                     departamento, salario, fechaAlta
                 });
                 Toast.success('Empleado creado', `${nombre} ${apellido} fue registrado exitosamente.`);
@@ -309,15 +328,23 @@ const EmployeesPage = (() => {
         }
     }
 
-    // Funciones públicas para los botones de la tabla
-    function viewEmployee(id) {
+    // ==========================================================
+    // Vista de detalle con historial de cambios
+    // ==========================================================
+
+    async function viewEmployee(id) {
         const emp = _employees.find(e => e.id === id);
         if (!emp) return;
 
+        // Cargar historial desde el backend
+        let historyHtml = '<p style="color:var(--clr-text-500);text-align:center;padding:var(--space-4);">Cargando historial...</p>';
+
         Modal.open({
             title: `${emp.nombre} ${emp.apellido}`,
+            size: 'lg',
             body: `
                 <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+                    <!-- Datos del empleado -->
                     <div style="display:flex;align-items:center;gap:var(--space-4);">
                         <div class="avatar avatar--xl">${Utils.getInitials(emp.nombre, emp.apellido)}</div>
                         <div>
@@ -335,6 +362,17 @@ const EmployeesPage = (() => {
                         <div><span class="text-muted text-sm">Fecha de Ingreso</span><p>${Utils.formatDate(emp.fechaAlta)}</p></div>
                         <div><span class="text-muted text-sm">Registrado</span><p>${Utils.formatDate(emp.createdAt)}</p></div>
                     </div>
+
+                    <!-- Historial de cambios -->
+                    <hr class="divider" />
+                    <div>
+                        <h4 style="font-size:var(--font-size-lg);font-weight:600;margin-bottom:var(--space-3);">
+                            📋 Historial del Ciclo de Vida
+                        </h4>
+                        <div id="employee-history-timeline">
+                            ${historyHtml}
+                        </div>
+                    </div>
                 </div>
             `,
             footer: `
@@ -342,6 +380,102 @@ const EmployeesPage = (() => {
                 <button class="btn btn--primary" onclick="Modal.close(); EmployeesPage.editEmployee('${emp.id}')">✏️ Editar</button>
             `,
         });
+
+        // Cargar historial de forma asíncrona
+        try {
+            const history = await Api.get(`/v1/employees/${id}/history`);
+            const container = document.getElementById('employee-history-timeline');
+            if (container) {
+                container.innerHTML = _renderTimeline(history);
+            }
+        } catch (err) {
+            const container = document.getElementById('employee-history-timeline');
+            if (container) {
+                container.innerHTML = '<p style="color:var(--clr-danger-500);text-align:center;">Error al cargar el historial.</p>';
+            }
+        }
+    }
+
+    /**
+     * Renderiza la línea de tiempo del historial de cambios.
+     */
+    function _renderTimeline(history) {
+        if (!history || history.length === 0) {
+            return '<p style="color:var(--clr-text-500);text-align:center;padding:var(--space-4);">No hay cambios registrados.</p>';
+        }
+
+        const iconMap = {
+            'ALTA':                  '🟢',
+            'CESE':                  '🔴',
+            'CAMBIO_CARGO':          '📋',
+            'CAMBIO_SALARIO':        '💰',
+            'CAMBIO_DEPARTAMENTO':   '🏢',
+            'ACTUALIZACION_DATOS':   '✏️',
+            'ACTUALIZACION_PERFIL':  '📄',
+            'CAMBIO_EMAIL':          '📧',
+        };
+
+        const colorMap = {
+            'ALTA':                  'var(--clr-success-500, #22c55e)',
+            'CESE':                  'var(--clr-danger-500, #ef4444)',
+            'CAMBIO_CARGO':          'var(--clr-primary-500, #6366f1)',
+            'CAMBIO_SALARIO':        'var(--clr-warning-500, #f59e0b)',
+            'CAMBIO_DEPARTAMENTO':   'var(--clr-info-500, #3b82f6)',
+            'ACTUALIZACION_DATOS':   'var(--clr-text-400, #94a3b8)',
+            'ACTUALIZACION_PERFIL':  'var(--clr-primary-400, #818cf8)',
+            'CAMBIO_EMAIL':          'var(--clr-text-400, #94a3b8)',
+        };
+
+        const items = history.map((h, i) => {
+            const icon = iconMap[h.tipoCambio] || '📝';
+            const color = colorMap[h.tipoCambio] || 'var(--clr-text-400)';
+            const fecha = _formatHistoryDate(h.fecha);
+            const isLast = i === history.length - 1;
+
+            let detailHtml = '';
+            if (h.valorAnterior && h.valorNuevo && h.tipoCambio !== 'ALTA') {
+                detailHtml = `
+                    <div style="margin-top:var(--space-2);padding:var(--space-2) var(--space-3);background:var(--clr-bg-200);border-radius:var(--radius-md);font-size:var(--font-size-xs);">
+                        <span style="color:var(--clr-danger-500);text-decoration:line-through;">${h.valorAnterior}</span>
+                        <span style="margin:0 var(--space-2);">→</span>
+                        <span style="color:var(--clr-success-500);font-weight:600;">${h.valorNuevo}</span>
+                    </div>`;
+            }
+
+            return `
+                <div style="display:flex;gap:var(--space-3);position:relative;">
+                    <!-- Línea vertical -->
+                    <div style="display:flex;flex-direction:column;align-items:center;min-width:32px;">
+                        <div style="width:32px;height:32px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
+                            ${icon}
+                        </div>
+                        ${!isLast ? `<div style="width:2px;flex:1;background:var(--clr-border-200);margin:4px 0;"></div>` : ''}
+                    </div>
+                    <!-- Contenido -->
+                    <div style="padding-bottom:${isLast ? '0' : 'var(--space-4)'};flex:1;">
+                        <div style="font-weight:500;font-size:var(--font-size-sm);">${h.descripcion || h.tipoCambio}</div>
+                        <div style="font-size:var(--font-size-xs);color:var(--clr-text-500);margin-top:2px;">${fecha}</div>
+                        ${detailHtml}
+                    </div>
+                </div>`;
+        });
+
+        return `<div style="display:flex;flex-direction:column;">${items.join('')}</div>`;
+    }
+
+    /**
+     * Formatea la fecha del historial de forma legible.
+     */
+    function _formatHistoryDate(dateStr) {
+        try {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('es-PE', {
+                year: 'numeric', month: 'long', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        } catch {
+            return dateStr;
+        }
     }
 
     function editEmployee(id) {
@@ -349,7 +483,27 @@ const EmployeesPage = (() => {
         if (emp) _openFormModal(emp);
     }
 
-    return { render, viewEmployee, editEmployee };
+    function terminateEmployee(id) {
+        const emp = _employees.find(e => e.id === id);
+        if (!emp) return;
+
+        if (confirm(`¿Estás seguro que deseas dar de baja a ${emp.nombre} ${emp.apellido}?`)) {
+            _handleTerminate(id);
+        }
+    }
+
+    async function _handleTerminate(id) {
+        try {
+            const fechaCese = new Date().toISOString().split('T')[0];
+            await Api.patch(`/v1/employees/${id}/cese?fechaCese=${fechaCese}`);
+            Toast.success('Empleado cesado', 'El empleado fue dado de baja correctamente.');
+            await _loadEmployees();
+        } catch(err) {
+            Toast.error('Error al cesar', err.message || 'No se pudo cesar al empleado.');
+        }
+    }
+
+    return { render, viewEmployee, editEmployee, terminateEmployee };
 
 })();
 

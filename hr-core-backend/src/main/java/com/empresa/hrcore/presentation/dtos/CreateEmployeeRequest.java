@@ -15,9 +15,7 @@ import java.math.BigDecimal;
  */
 public class CreateEmployeeRequest {
 
-    @NotBlank(message = "El código del empleado es obligatorio")
-    @Size(max = 20, message = "El código no puede tener más de 20 caracteres")
-    private String codigo;
+    // El código (EMP-001, EMP-002...) se genera automáticamente en el backend
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
@@ -53,9 +51,6 @@ public class CreateEmployeeRequest {
     private String fechaAlta;  // Formato: "2025-01-15"
 
     // Getters y Setters
-    public String getCodigo()       { return codigo; }
-    public void setCodigo(String v) { this.codigo = v; }
-
     public String getNombre()       { return nombre; }
     public void setNombre(String v) { this.nombre = v; }
 

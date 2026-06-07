@@ -89,6 +89,8 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\configuration\SecurityConfig.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmpleadoJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmpleadoJpaRepository.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmployeeHistoryJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmployeeHistoryJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\AuditoriaJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\BeneficioJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\EmpleadoJpaEntity.java

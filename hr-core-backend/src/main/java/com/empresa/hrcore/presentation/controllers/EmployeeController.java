@@ -3,6 +3,7 @@ package com.empresa.hrcore.presentation.controllers;
 import com.empresa.hrcore.application.services.EmployeeService;
 import com.empresa.hrcore.domain.entities.Empleado;
 import com.empresa.hrcore.domain.entities.PerfilProfesional;
+import com.empresa.hrcore.infrastructure.persistence.jpa.EmployeeHistoryJpaEntity;
 import com.empresa.hrcore.presentation.dtos.CreateEmployeeRequest;
 import com.empresa.hrcore.presentation.dtos.EmployeeResponse;
 import com.empresa.hrcore.presentation.dtos.UpdateEmployeeRequest;
@@ -27,11 +28,12 @@ import java.util.stream.Collectors;
  * traduce a llamadas al Servicio de Aplicación (EmployeeService).
  *
  * Endpoints disponibles:
- *   POST   /v1/employees           → Crear empleado
- *   GET    /v1/employees           → Listar todos
- *   GET    /v1/employees/{id}      → Obtener por ID
- *   PUT    /v1/employees/{id}      → Actualizar empleado
- *   PATCH  /v1/employees/{id}/cese → Cesar empleado
+ *   POST   /v1/employees                → Crear empleado (código autogenerado)
+ *   GET    /v1/employees                → Listar todos
+ *   GET    /v1/employees/{id}           → Obtener por ID
+ *   PUT    /v1/employees/{id}           → Actualizar empleado
+ *   PATCH  /v1/employees/{id}/cese      → Cesar empleado
+ *   GET    /v1/employees/{id}/history   → Historial de cambios
  */
 @RestController
 @RequestMapping("/v1/employees")
@@ -47,17 +49,16 @@ public class EmployeeController {
     }
 
     // ==========================================================
-    // POST /v1/employees — Crear Empleado
+    // POST /v1/employees — Crear Empleado (código autogenerado)
     // ==========================================================
 
     @PostMapping
     public ResponseEntity<EmployeeResponse> createEmployee(
             @Valid @RequestBody CreateEmployeeRequest request) {
 
-        log.info("POST /v1/employees — Crear empleado: {}", request.getCodigo());
+        log.info("POST /v1/employees — Crear empleado: {} {}", request.getNombre(), request.getApellido());
 
         Empleado created = employeeService.crearEmpleado(
-                request.getCodigo(),
                 request.getNombre(),
                 request.getApellido(),
                 request.getEmail(),
@@ -154,6 +155,45 @@ public class EmployeeController {
 
         Empleado cesado = employeeService.cesarEmpleado(id, LocalDate.parse(fechaCese));
         return ResponseEntity.ok(toResponse(cesado));
+    }
+
+    // ==========================================================
+    // GET /v1/employees/{id}/history — Historial de Cambios
+    // ==========================================================
+
+    @GetMapping("/{id}/history")
+    public ResponseEntity<List<HistoryResponse>> getEmployeeHistory(@PathVariable UUID id) {
+
+        log.info("GET /v1/employees/{}/history — Obtener historial", id);
+
+        List<EmployeeHistoryJpaEntity> history = employeeService.obtenerHistorial(id);
+
+        List<HistoryResponse> response = history.stream()
+                .map(h -> {
+                    HistoryResponse r = new HistoryResponse();
+                    r.id = h.getId();
+                    r.tipoCambio = h.getTipoCambio();
+                    r.campo = h.getCampo();
+                    r.valorAnterior = h.getValorAnterior();
+                    r.valorNuevo = h.getValorNuevo();
+                    r.descripcion = h.getDescripcion();
+                    r.fecha = h.getFecha().toString();
+                    return r;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
+
+    // Clase interna para la respuesta del historial
+    static class HistoryResponse {
+        public UUID id;
+        public String tipoCambio;
+        public String campo;
+        public String valorAnterior;
+        public String valorNuevo;
+        public String descripcion;
+        public String fecha;
     }
 
     // ==========================================================

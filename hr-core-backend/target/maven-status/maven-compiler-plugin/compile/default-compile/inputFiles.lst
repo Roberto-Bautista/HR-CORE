@@ -7,6 +7,7 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\mappers\AuditMapper.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\mappers\BenefitsMapper.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\mappers\EmployeeMapper.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\AbsenceService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\EmployeeService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\usecases\AbsenceUseCase.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\usecases\AttendanceUseCase.java
@@ -103,6 +104,10 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\repositories\EmpleadoJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\repositories\MarcacionJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\repositories\SolicitudJpaRepository.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\SaldoVacacionJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\SaldoVacacionJpaRepository.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\SolicitudVacacionJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\SolicitudVacacionJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\AbsenceRepositoryImpl.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\AttendanceRepositoryImpl.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\repositories\AuditRepositoryImpl.java

@@ -1,42 +1,62 @@
-package com.empresa.hrcore.domain.entities;
+package com.empresa.hrcore.infrastructure.persistence.jpa;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * ENTIDAD DE DOMINIO — Beneficio
+ * ENTIDAD JPA — Beneficio
  *
- * Representa un beneficio corporativo en el dominio del negocio.
- * Es agnóstico a la persistencia.
+ * Mapea la tabla 'benefits' en la base de datos PostgreSQL.
  */
-public class Beneficio {
+@Entity
+@Table(name = "benefits")
+public class BeneficioJpaEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(nullable = false, unique = true, length = 100)
     private String nombre;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    @Column(nullable = false)
     private BigDecimal costo;
+
+    @Column(nullable = false)
     private boolean activo;
 
-    // Reglas de elegibilidad asociadas (para los verificadores del patrón Strategy)
+    // Reglas de elegibilidad
+    @Column(name = "requiere_salario_min")
     private BigDecimal requiereSalarioMin;
+
+    @Column(name = "requiere_salario_max")
     private BigDecimal requiereSalarioMax;
+
+    @Column(name = "requiere_antiguedad_meses")
     private Integer requiereAntiguedadMeses;
+
+    @Column(name = "requiere_cargo", length = 100)
     private String requiereCargo;
 
-    // Metadatos
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public Beneficio() {}
-
-    public Beneficio(UUID id, String nombre, String descripcion, BigDecimal costo, boolean activo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.costo = costo;
-        this.activo = activo;
+    @PrePersist
+    protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 

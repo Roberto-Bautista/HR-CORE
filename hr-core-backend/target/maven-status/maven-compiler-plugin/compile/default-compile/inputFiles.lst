@@ -9,6 +9,7 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\mappers\EmployeeMapper.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\AbsenceService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\AttendanceService.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\BenefitsService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\services\EmployeeService.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\usecases\AbsenceUseCase.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\application\usecases\AttendanceUseCase.java
@@ -100,10 +101,14 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\configuration\RedisConfig.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\configuration\RetryConfig.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\configuration\SecurityConfig.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\BeneficioJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\BeneficioJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmpleadoJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmpleadoJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmployeeHistoryJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EmployeeHistoryJpaRepository.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EnrolamientoJpaEntity.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\EnrolamientoJpaRepository.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\AuditoriaJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\BeneficioJpaEntity.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\infrastructure\persistence\jpa\entities\EmpleadoJpaEntity.java
@@ -144,10 +149,13 @@ C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empr
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\controllers\EmployeeController.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\controllers\RBACController.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\BeneficioResponseDTO.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\BenefitResponse.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\CreateEmployeeRequest.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\EmployeeRequestDTO.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\EmployeeResponse.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\EmployeeResponseDTO.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\EnrollBenefitRequest.java
+C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\EnrollmentResponse.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\MarcacionRequestDTO.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\PagedResponseDTO.java
 C:\Users\Usuario\Documents\GitHub\HR-CORE\hr-core-backend\src\main\java\com\empresa\hrcore\presentation\dtos\SolicitudVacacionRequestDTO.java

@@ -1,16 +1,12 @@
-package com.empresa.hrcore.domain.entities;
+package com.empresa.hrcore.presentation.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * ENTIDAD DE DOMINIO — Beneficio
- *
- * Representa un beneficio corporativo en el dominio del negocio.
- * Es agnóstico a la persistencia.
+ * DTO — Respuesta del catálogo de beneficios.
  */
-public class Beneficio {
+public class BenefitResponse {
 
     private UUID id;
     private String nombre;
@@ -18,27 +14,16 @@ public class Beneficio {
     private BigDecimal costo;
     private boolean activo;
 
-    // Reglas de elegibilidad asociadas (para los verificadores del patrón Strategy)
+    // Reglas de elegibilidad expuestas para el front-end
     private BigDecimal requiereSalarioMin;
     private BigDecimal requiereSalarioMax;
     private Integer requiereAntiguedadMeses;
     private String requiereCargo;
 
-    // Metadatos
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    public Beneficio() {}
-
-    public Beneficio(UUID id, String nombre, String descripcion, BigDecimal costo, boolean activo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.costo = costo;
-        this.activo = activo;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
+    // Banderas calculadas dinámicamente si se evalúa un empleado
+    private Boolean esElegible;
+    private Boolean yaEnrolado;
+    private UUID enrolamientoId; // ID del enrolamiento si yaEnrolado es true
 
     // ==========================================================
     // Getters y Setters
@@ -71,9 +56,12 @@ public class Beneficio {
     public String getRequiereCargo() { return requiereCargo; }
     public void setRequiereCargo(String requiereCargo) { this.requiereCargo = requiereCargo; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Boolean getEsElegible() { return esElegible; }
+    public void setEsElegible(Boolean esElegible) { this.esElegible = esElegible; }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Boolean getYaEnrolado() { return yaEnrolado; }
+    public void setYaEnrolado(Boolean yaEnrolado) { this.yaEnrolado = yaEnrolado; }
+
+    public UUID getEnrolamientoId() { return enrolamientoId; }
+    public void setEnrolamientoId(UUID enrolamientoId) { this.enrolamientoId = enrolamientoId; }
 }

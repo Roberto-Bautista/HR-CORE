@@ -252,8 +252,8 @@ const AttendancePage = (() => {
                         <div class="card__subtitle">Últimos 30 días laborables</div>
                     </div>
                 </div>
-                <div class="table-container">
-                    <table class="table">
+                <div class="data-table-wrapper">
+                    <table class="data-table">
                         <thead>
                             <tr>
                                 <th>Día</th>
